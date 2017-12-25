@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action. " + "Dropbox app secret is " + BuildConfig.DROPBOX_APP_SECRET, Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Replace with your own action. " + "Dropbox app key is " + BuildConfig.DROPBOX_APP_KEY + " and app secret is " + BuildConfig.DROPBOX_APP_SECRET, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

@@ -18,6 +18,9 @@ android {
         applicationVariants.all { variant ->
             variant.buildConfigField "String", "DROPBOX_APP_SECRET", "\""+getDropboxAppSecret()+"\""
         }
+        applicationVariants.all { variant ->
+            variant.buildConfigField "String", "DROPBOX_APP_KEY", "\""+getDropboxAppKey()+"\""
+        }
     }
 }
 
@@ -25,6 +28,12 @@ def getDropboxAppSecret(){
     def Properties props = new Properties()
     props.load(new FileInputStream(new File('secrets.properties')))
     return props['DROPBOX_APP_SECRET']
+}
+
+def getDropboxAppKey(){
+    def Properties props = new Properties()
+    props.load(new FileInputStream(new File('secrets.properties')))
+    return props['DROPBOX_APP_KEY']
 }
 
 dependencies {
