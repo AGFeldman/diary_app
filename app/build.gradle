@@ -22,6 +22,10 @@ android {
             variant.buildConfigField "String", "DROPBOX_APP_KEY", "\""+getDropboxAppKey()+"\""
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 def getDropboxAppSecret(){
@@ -45,4 +49,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('libs/dropbox-android-sdk-1.6.3.jar')
+    compile group: 'com.google.guava', name: 'guava', version: '23.5-android'
+    compile 'com.dropbox.core:dropbox-core-sdk:3.0.5'
 }
