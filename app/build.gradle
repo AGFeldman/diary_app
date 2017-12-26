@@ -49,6 +49,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('libs/dropbox-android-sdk-1.6.3.jar')
-    compile group: 'com.google.guava', name: 'guava', version: '23.5-android'
     compile 'com.dropbox.core:dropbox-core-sdk:3.0.5'
+    // picasso 2.5.2 doesn't have OkHttp3 support (although it exists
+    // on master). Must use OkHttp v2 and v3 until new picasso release
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
 }

@@ -1,79 +1,77 @@
 package com.ajax.diary_app;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.android.AuthActivity;
-import com.dropbox.client2.session.AccessTokenPair;
-import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.core.android.Auth;
+import com.dropbox.core.v2.users.FullAccount;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends DropboxActivity {
     private static final String TAG = "DiaryAppMainActivity";
     public static final String EXTRA_MESSAGE = "com.ajax.diary_app.MESSAGE";
-
-    private static final String ACCOUNT_PREFS_NAME = "prefs";
-    private static final String ACCESS_KEY_NAME = "ACCESS_KEY";
-    private static final String ACCESS_SECRET_NAME = "ACCESS_SECRET";
 
     private static final boolean USE_OAUTH1 = false;
 
     DropboxAPI<AndroidAuthSession> mApi;
 
-    private boolean mLoggedIn;
-
     // Android widgets
     private Button mSubmit;
-    private LinearLayout mDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mApi = new DropboxAPI<>(buildSession());
-        checkAppKeySetup();
+        /*
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        */
 
-        mSubmit = (Button)findViewById(R.id.auth_button);
+        Button loginButton = (Button)findViewById(R.id.login_button);
 
-        mSubmit.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                // This logs you out if you're logged in, or vice versa
-                if (mLoggedIn) {
-                    logOut();
-                } else {
-                    // Start the remote authentication
-                    if (USE_OAUTH1) {
-                        mApi.getSession().startAuthentication(MainActivity.this);
-                    } else {
-                        mApi.getSession().startOAuth2Authentication(MainActivity.this);
-                    }
-                }
+                Auth.startOAuth2Authentication(MainActivity.this, BuildConfig.DROPBOX_APP_KEY);
             }
         });
 
-        mDisplay = (LinearLayout)findViewById(R.id.logged_in_display);
+        /*
+        Button filesButton = (Button)findViewById(R.id.files_button);
+        filesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(FilesActivity.getIntent(UserActivity.this, ""));
+            }
+        });
+        */
 
-        // Display the proper UI state if logged in or not
-        setLoggedIn(mApi.getSession().isLinked());
+        /*
+        Button openWithButton = (Button)findViewById(R.id.open_with);
+        openWithButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openWithIntent = new Intent(UserActivity.this, OpenWithActivity.class);
+                startActivity(openWithIntent);
+            }
+        });
+        */
     }
 
     @Override
     protected void onResume() {
+        /*
         super.onResume();
         AndroidAuthSession session = mApi.getSession();
 
@@ -93,6 +91,29 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "Error authenticating", e);
             }
         }
+        */
+
+        super.onResume();
+
+        if (hasToken()) {
+            findViewById(R.id.login_button).setVisibility(View.VISIBLE);  // Changed from GONE
+            findViewById(R.id.email_text).setVisibility(View.VISIBLE);
+            findViewById(R.id.name_text).setVisibility(View.VISIBLE);
+            findViewById(R.id.type_text).setVisibility(View.VISIBLE);
+            /*
+            findViewById(R.id.files_button).setEnabled(true);
+            findViewById(R.id.open_with).setEnabled(true);
+            */
+        } else {
+            findViewById(R.id.login_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.email_text).setVisibility(View.GONE);
+            findViewById(R.id.name_text).setVisibility(View.GONE);
+            findViewById(R.id.type_text).setVisibility(View.GONE);
+            /*
+            findViewById(R.id.files_button).setEnabled(false);
+            findViewById(R.id.open_with).setEnabled(false);
+            */
+        }
     }
 
     /**
@@ -100,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
      * store, rather than storing user name & password, and re-authenticating each
      * time (which is not to be done, ever).
      */
+    /*
     private void storeAuth(AndroidAuthSession session) {
         // Store the OAuth 2 access token, if there is one.
         String oauth2AccessToken = session.getOAuth2AccessToken();
@@ -123,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
     }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -164,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    /*
     private void loadAuth(AndroidAuthSession session) {
         SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
         String key = prefs.getString(ACCESS_KEY_NAME, null);
@@ -219,9 +243,7 @@ public class MainActivity extends AppCompatActivity {
         setLoggedIn(false);
     }
 
-    /**
-     * Convenience function to change UI state based on being logged in
-     */
+    // Convenience function to change UI state based on being logged in
     private void setLoggedIn(boolean loggedIn) {
         mLoggedIn = loggedIn;
         if (loggedIn) {
@@ -238,5 +260,22 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor edit = prefs.edit();
         edit.clear();
         edit.commit();
+    }
+    */
+        @Override
+    protected void loadData() {
+        new GetCurrentAccountTask(DropboxClientFactory.getClient(), new GetCurrentAccountTask.Callback() {
+            @Override
+            public void onComplete(FullAccount result) {
+                ((TextView) findViewById(R.id.email_text)).setText(result.getEmail());
+                ((TextView) findViewById(R.id.name_text)).setText(result.getName().getDisplayName());
+                ((TextView) findViewById(R.id.type_text)).setText(result.getAccountType().name());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(getClass().getName(), "Failed to get account details.", e);
+            }
+        }).execute();
     }
 }
