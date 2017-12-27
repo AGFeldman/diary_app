@@ -35,11 +35,9 @@ public class MainActivity extends DropboxActivity {
         if (hasToken()) {
             findViewById(R.id.email_text).setVisibility(View.VISIBLE);
             findViewById(R.id.name_text).setVisibility(View.VISIBLE);
-            findViewById(R.id.type_text).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.email_text).setVisibility(View.GONE);
             findViewById(R.id.name_text).setVisibility(View.GONE);
-            findViewById(R.id.type_text).setVisibility(View.GONE);
         }
     }
 
@@ -95,7 +93,6 @@ public class MainActivity extends DropboxActivity {
             public void onComplete(FullAccount result) {
                 ((TextView) findViewById(R.id.email_text)).setText(result.getEmail());
                 ((TextView) findViewById(R.id.name_text)).setText(result.getName().getDisplayName());
-                ((TextView) findViewById(R.id.type_text)).setText(result.getAccountType().name());
             }
 
             @Override
