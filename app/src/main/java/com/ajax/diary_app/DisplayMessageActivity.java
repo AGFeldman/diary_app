@@ -1,9 +1,12 @@
 package com.ajax.diary_app;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dropbox.core.DbxException;
 
@@ -29,14 +32,22 @@ public class DisplayMessageActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
 
+        Log.i("DisplayMessageActivity", "hereTODO(agf)");
         InputStream in = new ByteArrayInputStream(message.getBytes());
         try {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
             String randomHexString = Long.toHexString((new Random()).nextInt());
             String filename = timeStamp + "_" + randomHexString;
             DropboxClientFactory.getClient().files().uploadBuilder("/rpad_mobile/" + filename + ".txt").uploadAndFinish(in);
+            textView.setTextColor(Color.GREEN);
         } catch (DbxException | IOException e) {
-            throw new RuntimeException(e);
+            try {
+                textView.setTextColor(Color.RED);
+                Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+                Log.i("DisplayMessageActivity", "Dropbox upload failed:", e);
+            } catch (Throwable ee) {
+                Log.i("DisplayMessageActivity", "Caught inner throwable", ee);
+            }
         }
     }
 }
