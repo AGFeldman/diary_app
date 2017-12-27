@@ -10,6 +10,9 @@ import com.dropbox.core.DbxException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Random;
 
 public class DisplayMessageActivity extends AppCompatActivity {
 
@@ -28,7 +31,10 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
         InputStream in = new ByteArrayInputStream(message.getBytes());
         try {
-            DropboxClientFactory.getClient().files().uploadBuilder("/test_dropbox_app/megalodon_test.txt").uploadAndFinish(in);
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+            String randomHexString = Long.toHexString((new Random()).nextInt());
+            String filename = timeStamp + "_" + randomHexString;
+            DropboxClientFactory.getClient().files().uploadBuilder("/rpad_mobile/" + filename + ".txt").uploadAndFinish(in);
         } catch (DbxException | IOException e) {
             throw new RuntimeException(e);
         }
