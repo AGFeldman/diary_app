@@ -15,12 +15,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        applicationVariants.all { variant ->
-            variant.buildConfigField "String", "DROPBOX_APP_SECRET", "\""+getDropboxAppSecret()+"\""
-        }
-        applicationVariants.all { variant ->
-            variant.buildConfigField "String", "DROPBOX_APP_KEY", "\""+getDropboxAppKey()+"\""
-        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -28,27 +22,13 @@ android {
     }
 }
 
-def getDropboxAppSecret(){
-    def Properties props = new Properties()
-    props.load(new FileInputStream(new File('secrets.properties')))
-    return props['DROPBOX_APP_SECRET']
-}
-
-def getDropboxAppKey(){
-    def Properties props = new Properties()
-    props.load(new FileInputStream(new File('secrets.properties')))
-    return props['DROPBOX_APP_KEY']
-}
-
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:design:26.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation files('libs/dropbox-android-sdk-1.6.3.jar')
     compile 'com.dropbox.core:dropbox-core-sdk:3.0.5'
     // picasso 2.5.2 doesn't have OkHttp3 support (although it exists
     // on master). Must use OkHttp v2 and v3 until new picasso release

@@ -5,6 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.dropbox.core.DbxException;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class DisplayMessageActivity extends AppCompatActivity {
 
     @Override
@@ -19,5 +25,12 @@ public class DisplayMessageActivity extends AppCompatActivity {
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
+
+        InputStream in = new ByteArrayInputStream(message.getBytes());
+        try {
+            DropboxClientFactory.getClient().files().uploadBuilder("/test_dropbox_app/megalodon_test.txt").uploadAndFinish(in);
+        } catch (DbxException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
