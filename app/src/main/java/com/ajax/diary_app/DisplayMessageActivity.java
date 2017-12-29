@@ -38,7 +38,9 @@ public class DisplayMessageActivity extends AppCompatActivity {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
             String randomHexString = Long.toHexString((new Random()).nextInt());
             String filename = timeStamp + "_" + randomHexString;
-            DropboxClientFactory.getClient().files().uploadBuilder("/rpad_mobile/" + filename + ".txt").uploadAndFinish(in);
+            String path = "/rpad_mobile/";
+            // String path = "/Journal/html/append_5/";
+            DropboxClientFactory.getClient().files().uploadBuilder(path + filename + ".txt").uploadAndFinish(in);
             textView.setTextColor(Color.GREEN);
         } catch (DbxException | IOException e) {
             try {
