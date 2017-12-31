@@ -72,6 +72,11 @@ public class MainActivity extends DropboxActivity {
         startActivity(intent);
     }
 
+    public void launchSettings(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
     /** Checks if external storage is available for read and write */
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
