@@ -1,7 +1,10 @@
 package com.ajax.diary_app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +37,12 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
         Log.i("DisplayMessageActivity", "hereTODO(agf)");
         InputStream in = new ByteArrayInputStream(message.getBytes());
+//        Preference preference = SettingsActivity.GeneralPreferenceFragment2.dropboxPathPref;
+//        String path = PreferenceManager
+//                .getDefaultSharedPreferences(preference.getContext())
+//                .getString(preference.getKey(), "");
+//        Log.i("DisplayMessageActivity path", "<" + path + ">");
+
         try {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
             String randomHexString = Long.toHexString((new Random()).nextInt());
