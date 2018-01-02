@@ -181,8 +181,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment2 extends PreferenceFragment {
 
-//        static volatile Preference dropboxPathPref = null;
-
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -194,7 +192,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("dropbox_path"));
-//            dropboxPathPref = findPreference("dropbox_path");
             bindPreferenceSummaryToValue(findPreference("example_list"));
         }
 
