@@ -13,23 +13,33 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dropbox Account"
+            app:layout_constraintEnd_toStartOf="@+id/settings_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="launchSettings"
+            android:text="@string/button_settings"
+            app:layout_constraintStart_toEndOf="@id/login_button"
+            app:layout_constraintEnd_toStartOf="@id/upload_button"
+             />
+
+        <Button
+            android:id="@+id/upload_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="sendMessage"
             android:text="@string/button_upload"
             app:layout_constraintBaseline_toBaselineOf="@+id/login_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/login_button" />
-
-        <Button
-            android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dropbox Account"
-            app:layout_constraintEnd_toStartOf="@+id/button2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/settings_button" />
 
         <TextView
             android:id="@+id/name_text"
@@ -62,15 +72,6 @@
             app:layout_constraintTop_toBottomOf="@+id/email_text"
             tools:text="@string/edit_message"
             tools:textAlignment="viewStart" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="launchSettings"
-            android:text="@string/button_settings"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     </android.support.constraint.ConstraintLayout>
 
