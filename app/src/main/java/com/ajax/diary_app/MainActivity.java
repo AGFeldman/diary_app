@@ -3,6 +3,8 @@ package com.ajax.diary_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -105,5 +107,11 @@ public class MainActivity extends DropboxActivity {
                 Log.e(getClass().getName(), "Failed to get account details.", e);
             }
         }).execute();
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        FragmentManager a = getSupportFragmentManager();
+        newFragment.show(a, "datePicker");
     }
 }
