@@ -13,54 +13,33 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <Button
+            android:id="@+id/date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick Date"
+            android:onClick="showDatePickerDialog"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/login_button"/>
+
+        <Button
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dropbox Account"
             app:layout_constraintEnd_toStartOf="@+id/settings_button"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/date_button"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/settings_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="launchSettings"
             android:text="@string/button_settings"
             app:layout_constraintStart_toEndOf="@id/login_button"
-            kafdsafsdfsadfsd
-            app:layout_constraintEnd_toStartOf="@id/upload_button"
-             />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pick Date"
-            android:onClick="showDatePickerDialog" />
-
-        <Button
-            android:id="@+id/upload_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:onClick="sendMessage"
-            android:text="@string/button_upload"
-            app:layout_constraintBaseline_toBaselineOf="@+id/login_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/settings_button" />
-
-        <TextView
-            android:id="@+id/name_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            app:layout_constraintTop_toBottomOf="@+id/login_button" />
-
-        <TextView
-            android:id="@+id/email_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            app:layout_constraintTop_toBottomOf="@+id/name_text" />
+             />
 
         <EditText
             android:id="@+id/editText"
@@ -72,13 +51,52 @@
             android:selectAllOnFocus="true"
             android:textColor="@android:color/black"
             android:scrollbars="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/upload_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email_text"
             tools:text="@string/edit_message"
             tools:textAlignment="viewStart" />
+
+        <!--app:layout_constraintTop_toBottomOf="@+id/login_button"-->
+
+        <!--app:layout_constraintTop_toBottomOf="@+id/name_text"-->
+        <TextView
+            android:id="@+id/name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/email_text"
+            app:layout_constraintTop_toBottomOf="@id/editText"
+            app:layout_constraintBottom_toBottomOf="parent"
+             />
+        <TextView
+            android:id="@+id/email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toEndOf="@id/name_text"
+            app:layout_constraintEnd_toStartOf="@id/upload_button"
+            app:layout_constraintTop_toBottomOf="@id/editText"
+            app:layout_constraintBottom_toBottomOf="parent"
+             />
+
+        <Button
+            android:id="@+id/upload_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="sendMessage"
+            android:text="@string/button_upload"
+            app:layout_constraintTop_toBottomOf="@id/editText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintBaseline_toBaselineOf="@+id/login_button"-->
+        <!--    app:layout_constraintStart_toEndOf="@+id/settings_button"-->
 
     </android.support.constraint.ConstraintLayout>
 
