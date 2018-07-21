@@ -28,6 +28,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String chosenDateString = intent.getStringExtra(MainActivity.CHOSEN_DATE_STRING);
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.textView);
@@ -43,7 +44,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
         try {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
             String randomHexString = Long.toHexString((new Random()).nextInt());
-            String filename = timeStamp + "_" + randomHexString;
+            String filename = chosenDateString + "_" + timeStamp + "_" + randomHexString;
             DropboxClientFactory.getClient().files().uploadBuilder(path + filename + ".txt").uploadAndFinish(in);
             textView.setTextColor(Color.GREEN);
         } catch (DbxException | IOException e) {

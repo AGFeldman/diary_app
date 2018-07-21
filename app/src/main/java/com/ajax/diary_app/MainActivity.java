@@ -19,6 +19,7 @@ import com.dropbox.core.v2.users.FullAccount;
 
 public class MainActivity extends DropboxActivity {
     public static final String EXTRA_MESSAGE = "com.ajax.diary_app.MESSAGE";
+    public static final String CHOSEN_DATE_STRING = "com.ajax.diary_app.CHOSEN_DATE_STRING";
     private static final DatePickerFragment datePickerFragment = new DatePickerFragment();
 
     @Override
@@ -75,6 +76,7 @@ public class MainActivity extends DropboxActivity {
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(CHOSEN_DATE_STRING, datePickerFragment.getDateString());
         startActivity(intent);
     }
 

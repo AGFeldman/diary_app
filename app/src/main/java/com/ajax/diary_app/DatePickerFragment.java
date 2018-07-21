@@ -59,4 +59,9 @@ public class DatePickerFragment extends DialogFragment
         this.button = button;
         button.setText(getText());
     }
+
+    String getDateString() {
+        // Month is zero-indexed
+        return String.valueOf(year) + intToPaddedString(month + 1) + intToPaddedString(day);
+    }
 }
