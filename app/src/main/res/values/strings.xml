@@ -20,6 +20,7 @@
 
     <string name="pref_title_dropbox_path">Dropbox path</string>
     <string name="pref_default_dropbox_path">/</string>
+    <string name="diary_directory">diary_app.entries_awaiting_upload</string>
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
