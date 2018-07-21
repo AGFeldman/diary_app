@@ -19,6 +19,7 @@ import com.dropbox.core.v2.users.FullAccount;
 
 public class MainActivity extends DropboxActivity {
     public static final String EXTRA_MESSAGE = "com.ajax.diary_app.MESSAGE";
+    private static final DatePickerFragment datePickerFragment = new DatePickerFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,9 @@ public class MainActivity extends DropboxActivity {
         Button loginButton = findViewById(R.id.login_button);
 
         loginButton.setOnClickListener(v -> Auth.startOAuth2Authentication(MainActivity.this, getString(R.string.app_key)));
+
+        Button dateButton = findViewById(R.id.date_button);
+        datePickerFragment.setButton(dateButton);
     }
 
     @Override
@@ -110,8 +114,7 @@ public class MainActivity extends DropboxActivity {
     }
 
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
         FragmentManager a = getSupportFragmentManager();
-        newFragment.show(a, "datePicker");
+        datePickerFragment.show(a, "datePicker");
     }
 }
