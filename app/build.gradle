@@ -6,8 +6,8 @@ android {
         applicationId "com.ajax.diary_app"
         minSdkVersion 24
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "0.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
