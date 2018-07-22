@@ -19,11 +19,7 @@ public class DatePickerFragment extends DialogFragment
     private Button button;
 
     public DatePickerFragment() {
-        // Use the current date as the default date in the picker
-        final Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
+        resetDate();
     }
 
     @Override
@@ -63,5 +59,15 @@ public class DatePickerFragment extends DialogFragment
     String getDateString() {
         // Month is zero-indexed
         return String.valueOf(year) + intToPaddedString(month + 1) + intToPaddedString(day);
+    }
+
+    void resetDate() {
+        Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+        if (button != null) {
+            button.setText(getText());
+        }
     }
 }
