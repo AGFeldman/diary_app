@@ -14,9 +14,11 @@ import com.dropbox.core.DbxException;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
@@ -32,20 +34,42 @@ public class DisplayMessageActivity extends AppCompatActivity {
         return false;
     }
 
-    public void writeToExternalStorage(String message, String filename) {
+    public void writeToExternalStorage(String message, String filename) throws IOException {
         if (isExternalStorageWritable()) {
-            File dir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS), "@string/diary_directory");
+            File dir = new File(Environment.getExternalStorageDirectory(),
+                    getString(R.string.diary_directory));
             dir.mkdirs();
             File file = new File(dir, filename);
+            file.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(file);
+            outputStream.write(message.getBytes());
+            outputStream.close();
+        }
+    }
+
+    public void uploadWaitingFilesToDropbox() {
+        File dir = new File(Environment.getExternalStorageDirectory(),
+                getString(R.string.diary_directory));
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing == null) {
+            return;
+        }
+        String path = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("dropbox_path", "/");
+        for (File f : directoryListing) {
             try {
-                FileOutputStream outputStream = new FileOutputStream(file);
-                outputStream.write(message.getBytes());
-                outputStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+                InputStream in = new ByteArrayInputStream(Files.readAllBytes(f.toPath()));
+                DropboxClientFactory.getClient().files().uploadBuilder(path + f.getName()).uploadAndFinish(in);
+                Utils.showToast(this, "Uploaded " + f.getName());
+                if (!f.delete()) {
+                    Utils.showToast(this, "Delete failed for " + f.getName());
+                }
+            } catch (DbxException | IOException e){
+                Log.i("DisplayMessageActivity", "Dropbox upload failed:", e);
+                Utils.showToast(this, "Upload failed for " + f.getName() + ", giving up on uploading");
+                return;
             }
         }
+
     }
 
     @Override
@@ -61,28 +85,21 @@ public class DisplayMessageActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
 
-        Log.i("DisplayMessageActivity", "hereTODO(agf)");
-        InputStream in = new ByteArrayInputStream(message.getBytes());
-//        String path = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("dropbox_path", "/");
-        String path = "/rpad_mobile/";
-        // String path = "/Journal/html/append_5/";
-        Log.i("DisplayMessageActivity path", "<" + path + ">");
-
         try {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
             String randomHexString = Long.toHexString((new Random()).nextInt());
             String filename = timeStamp + "_" + randomHexString;
-            writeToExternalStorage(message, filename);
-            DropboxClientFactory.getClient().files().uploadBuilder(path + filename + ".txt").uploadAndFinish(in);
+            writeToExternalStorage(message, filename + ".txt");
             textView.setTextColor(Color.GREEN);
-        } catch (DbxException | IOException e) {
+        } catch (IOException e) {
             try {
                 textView.setTextColor(Color.RED);
                 Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
-                Log.i("DisplayMessageActivity", "Dropbox upload failed:", e);
+                Log.i("DisplayMessageActivity", "Save failed:", e);
             } catch (Throwable ee) {
                 Log.i("DisplayMessageActivity", "Caught inner throwable", ee);
             }
         }
+        uploadWaitingFilesToDropbox();
     }
 }

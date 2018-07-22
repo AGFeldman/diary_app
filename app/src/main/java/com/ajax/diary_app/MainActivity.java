@@ -83,11 +83,6 @@ public class MainActivity extends DropboxActivity {
         startActivity(intent);
     }
 
-    private void showToast(String msg) {
-        Toast error = Toast.makeText(this, msg, Toast.LENGTH_LONG);
-        error.show();
-    }
-
     @Override
     protected void loadData() {
         new GetCurrentAccountTask(DropboxClientFactory.getClient(), new GetCurrentAccountTask.Callback() {
