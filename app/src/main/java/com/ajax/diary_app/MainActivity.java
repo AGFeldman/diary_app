@@ -19,6 +19,7 @@ import com.dropbox.core.v2.users.FullAccount;
 
 public class MainActivity extends DropboxActivity {
     public static final String EXTRA_MESSAGE = "com.ajax.diary_app.MESSAGE";
+    public static final String CHOSEN_DATE_STRING = "com.ajax.diary_app.CHOSEN_DATE_STRING";
     private static final DatePickerFragment datePickerFragment = new DatePickerFragment();
 
     @Override
@@ -37,7 +38,21 @@ public class MainActivity extends DropboxActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        resetChosenDateIfNeeded();
+        setEmailAndNameVisibility();
+    }
 
+    private void resetChosenDateIfNeeded() {
+        // If entry box is empty then reset the chosen date
+        if (((EditText) findViewById(R.id.edit_text)).getText().toString().length() == 0) {
+            Log.i("MainActivity", "resetting date");
+            datePickerFragment.resetDate();
+        } else {
+            Log.i("MainActivity", "not resetting date");
+        }
+    }
+
+    private void setEmailAndNameVisibility() {
         if (hasToken()) {
             findViewById(R.id.email_text).setVisibility(View.VISIBLE);
             findViewById(R.id.name_text).setVisibility(View.VISIBLE);
@@ -72,9 +87,10 @@ public class MainActivity extends DropboxActivity {
     /** Called when the user taps the Send button */
     public void sendMessage(View view) {
         Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.editText);
+        EditText editText = findViewById(R.id.edit_text);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(CHOSEN_DATE_STRING, datePickerFragment.getDateString());
         startActivity(intent);
     }
 
