@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -88,6 +89,7 @@ public class MainActivity extends DropboxActivity {
     public void sendMessage(View view) {
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         EditText editText = findViewById(R.id.edit_text);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         intent.putExtra(CHOSEN_DATE_STRING, datePickerFragment.getDateString());
