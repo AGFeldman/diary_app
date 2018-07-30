@@ -99,4 +99,10 @@ public class DisplayMessageActivity extends AppCompatActivity {
         }
         uploadWaitingFilesToDropbox();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
+    }
 }
