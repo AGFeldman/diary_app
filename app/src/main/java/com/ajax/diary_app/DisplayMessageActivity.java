@@ -102,6 +102,8 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // Just do this to clear the EditText. Alternative approaches:
+        // https://stackoverflow.com/questions/12408719/resume-activity-in-android
         Intent mainIntent = new Intent(this, MainActivity.class);
         startActivity(mainIntent);
     }
