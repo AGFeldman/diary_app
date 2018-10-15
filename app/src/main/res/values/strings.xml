@@ -10,7 +10,6 @@
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
     <string name="pref_header_general_2">General2</string>
 
     <string name="pref_title_social_recommendations">Enable social recommendations</string>
