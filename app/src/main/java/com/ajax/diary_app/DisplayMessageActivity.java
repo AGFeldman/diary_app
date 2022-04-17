@@ -26,13 +26,14 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
     /** Checks if external storage is available for read and write */
     public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        return Environment.MEDIA_MOUNTED.equals(state);
+        return true;
+        // String state = Environment.getExternalStorageState();
+        // return Environment.MEDIA_MOUNTED.equals(state);
     }
 
     public void writeToExternalStorage(String message, String filename) throws IOException {
         if (isExternalStorageWritable()) {
-            File dir = new File(Environment.getExternalStorageDirectory(),
+            File dir = new File(getExternalFilesDir(null),
                     getString(R.string.diary_directory));
             dir.mkdirs();
             File file = new File(dir, filename);
@@ -44,7 +45,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
     }
 
     public void uploadWaitingFilesToDropbox() {
-        File dir = new File(Environment.getExternalStorageDirectory(),
+        File dir = new File(getExternalFilesDir(null),
                 getString(R.string.diary_directory));
         File[] directoryListing = dir.listFiles();
         if (directoryListing == null) {
